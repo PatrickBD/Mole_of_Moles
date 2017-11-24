@@ -1,0 +1,158 @@
+html {
+  background-color: black;
+  color: green;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
+button {
+  background-color: black;
+  color: green;
+}
+input {
+  background-color: black;
+  color: green;
+}
+h1 {
+  text-align: center;
+  padding-right: 450px;
+  margin: 10px;
+  margin-bottom: 0px;
+}
+h4 {
+  padding: 0px;
+  margin: 0px;
+}
+
+button {
+  float: left;
+  background-image: url("images/button.png");
+  background-color: #cccccc;
+  background-size: 100%;
+  color: black;
+}
+
+#GameHide {
+  visibility: hidden;
+}
+#ScoreLine {
+  border: 2px solid white;
+  width: 800px;
+  margin-left: 5px;
+  margin-top: 1px;
+}
+#MultiInfo {
+  float: right;
+  color: red;
+}
+
+#TimeKeeper {
+  border-right: 2px solid white;
+  border-left: 2px solid white;
+  float: right;
+}
+
+#Score {
+  border: 2px solid white;
+  margin: 1px;
+  margin-left: 0;
+  margin-bottom: 0;
+  height: 50px;
+  width: 798px;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 40px;
+}
+#SubMoleLine {
+  font-size: 20px;
+}
+/*#LightChangeButton {
+  background-color: grey;
+  border: 2px solid white;
+}*/
+
+#ThresholdButton {
+  display: block;
+  vertical-align: baseline;
+  width: 297px;
+  height: 12%;
+  padding: 0;
+  position: absolute;
+  bottom: 0;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 20px;
+}
+
+.UpgradeButtons {
+  display: block;
+  vertical-align: baseline;
+  width: 297px;
+  height: 8%;
+  padding: 0;
+  background-image: url("images/button.png");
+  background-color: #cccccc;
+  background-size: 100%;
+  color: black;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+.DifficultyButtons {
+  margin-left: 8%;
+  margin-right: 8%;
+}
+
+.ui-tooltip {
+  background-color: black;
+  border: 2px solid gold;
+  color: white;
+  font: bold 14px "Helvetica Neue", Sans-Serif;
+  text-transform: uppercase;
+  width: 300px;
+  height: 125px;
+  position: absolute;
+}
+
+#StatusText {
+  width: 297px;
+  float:left;
+  padding: 0;
+  margin: 0;
+  height: 502px;
+  border: 2px solid white;
+  border-top: 0px;
+  border-left: 0px;
+  position: relative;
+}
+
+#canvas {
+  border: 2px solid white;
+  width: 500px;
+  height: 500px;
+}
+
+#PageText {
+  margin: 0;
+  border: 2px solid white;
+  height: 500px;
+  width: 500px;
+}
+
+#Log {
+
+}
+
+#titleimg {
+  border: 2px solid white;
+}
+
+#Playarea {
+  padding: 0%;
+  margin: 0%;
+  margin-left: 5px;
+  margin-right: 5px;
+  float: left;
+  display: block;
+  width: 500px;
+  height: 500px;
+}

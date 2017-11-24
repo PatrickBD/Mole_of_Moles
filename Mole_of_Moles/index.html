@@ -1,0 +1,48 @@
+<html lang="en-us">
+<head>
+  <title>Mole of Moles</title>
+  <meta charset="UTF-8">
+  <link href="app.css" rel="stylesheet" media="all">
+  <script src="jquery-3.1.0.js"></script>
+  <script src="jquery-ui.js"></script>
+</head>
+
+<body>
+  <p id="JavascriptBlock"><img src="images/Mole_Sad.png" width="100px" height="100px"></img>If you are seeing this, the javascript is blocked and the game won't play. Pleased to be unblocking. :)</p>
+
+<div id="GameHide">
+  <div id="DebugOptions">
+    <button id='HourSkipButton'>D:Skip Hour</button>
+    <button id='MinuteSkipButton'>D:Skip Minute</button>
+    <button id='ForceLevelButton'>D:Level Up</button>
+    <!-- <button id='BigNumberButton'>D:Big Number Test</button>
+    <button id='SimulateGameButton'>D:Sim Game</button>
+    <button id='OptimumGameButton'>D:Sim Opt Game</button> -->
+    <button id='StartButton' title=''>D: Start</button>
+    <button id='ForceThresholdButton' title=''>D: Force Threshold</button>
+    <button id='RateButton' title=''>D: 10x Rate</button>
+    <button id='PauseButton'>D: Pause</button>
+    <br><br>
+  </div>
+  <div id="ScoreLine">
+    <button id='SoundMuteButton'>SFX</button>
+    <button id='MuteButton'>Music</button>
+    <button id='LightChangeButton'>Change Molehole</button>
+    <button id='HelpButton'>Problem?</button>
+    <a id="Log"></a>
+    <a id="MultiInfo"></a>
+    <a id="TimeKeeper"></a>
+    <br>
+    <p id="Score">Six times ten to the awesome!</p>
+    <!-- <img id="LightChangeButton" src="images/lights/Black_light.png" width="40px" height="40px" align="right" float="right"></img> -->
+  </div>
+  <div id="Playarea">
+    <canvas id="canvas" height="500px" width="500px"></canvas>
+    <p id="PageText" visibility = "hidden" ></p>
+  </div>
+  <span id="StatusText" title=""></span>
+  <script  src="app.js"></script>
+  <audio id="MusicPlayer" src="8-bit-Arcade4.mp3" volume="0.01" loop></audio>
+</div>
+</body>
+</html>
