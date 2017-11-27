@@ -55,6 +55,14 @@ $(document).ready(function(){
   var levelscreen = false;
   var thresholdreached = false;
   var curlight = 0;
+  var scientificnotation = true;
+  var iconrotate = 0;
+  var currentammount = 0;
+  var amountarray = [
+    {amount: 1, multi: 1},
+    {amount: 10, multi: 20.4},
+    {amount: 100, multi: 78287497}
+  ]
 // images
   var moleimg = new Image();
   var titlepageimg = new Image();
@@ -340,6 +348,7 @@ $(document).ready(function(){
     levelbackimg.src = "images/lab.png";
     moleimg.src = "images/Mole_B+W.png";
     molewaveimg.src = "images/B+W_Wave.png";
+    iconrotate = 1;
     $('#MultiInfo').html("x"+numbercleanup(megamoletiplier))
     clearInterval(title_loop)
     //upgrades
@@ -360,7 +369,7 @@ $(document).ready(function(){
     up['moledating'] = new upgradetype(0,10,1000, 'moledating', 'Mole Dating Services', 'Find your mole mate')
     up['moletiplication'] = new upgradetype(0,100,10000, 'moletiplication', 'Moletiplication', 'Why are moles good at math?')
     up['moleblehomes'] = new upgradetype(0,1000,1000000, 'moleblehomes', 'Moleble Homes', 'Actually quite cozy')
-    up['moleasses'] = new upgradetype(0,10000,1000000000, 'moleasses', 'Mole-asses', 'No comment')
+    up['moleasses'] = new upgradetype(0,10000,1000000000, 'moleasses', 'Mole-asses', 'Hope that is not what I think it is')
     up['moleionare'] = new upgradetype(0,100000,10000000000, 'moleionare', 'Multi-mole-ionare', "You're rich, in moles anyways")
     up['molehawks'] = new upgradetype(0,5000000,1000000000000, 'molehawks', 'Mole Hawks', 'Rock and Mole!')
     up['guacamole'] = new upgradetype(0,100000000,1000000000000000, 'guacamole', 'Guacamole', "It's Avocado's Number")
@@ -392,8 +401,8 @@ $(document).ready(function(){
       "6 times 10^23",
       "The mole the merrier",
       "A Mole-mole is a mole double agent",
-      "Potatoes and mole-asses: not as tasty as the song implies",
-      "Hole-y Mole-y!",
+      "Potatoes and mole-asses: not as good as the song implies",
+      "Hole-y mole-y! It's a hole of mole-ies!",
       "Big numbers mean this game is educational, right?",
     ]
     Object.keys(up).forEach(function(key) {
@@ -423,6 +432,7 @@ $(document).ready(function(){
     statustext()
     $('#ScoreLine').show();
     upgradechecker();
+    $('#MoleLevelIcon').html("<img src='"+moleimg.src+"' title='Mega Moletiplier: x"+numbercleanup(megamoletiplier)+"' style='width: 40px;height: 40px'></img>")
 
 		if(typeof game_loop != "undefined") clearInterval(game_loop);
 		game_loop = setInterval(paint, speed);
@@ -479,6 +489,7 @@ $(document).ready(function(){
     }
 
     statustext();
+    darkenbuttons();
     if (level > 6) {
       molewaveheight = Math.ceil(250-(totalmoles/(threshold*1.0))*200)
     } else {
@@ -613,12 +624,12 @@ $(document).ready(function(){
       musicon = false;
     }
   };
-
-	$(document).keydown(function(e){
-		var key = e.which;
-    if (key == "32") pause();
-    if (key == "77") musictoggle();
-	});
+// keystrokes
+	// $(document).keydown(function(e){
+	// 	var key = e.which;
+  //   if (key == "32") pause();
+  //   if (key == "77") musictoggle();
+	// });
 
   function flickering(current,positive,n = 2, rate = 1) {
     if (current > n) {
@@ -633,11 +644,19 @@ $(document).ready(function(){
     }
     return [current, positive, n , rate]
   }
-
+// upgrade button darkening
+  function darkenbuttons() {
+    Object.keys(up).forEach(function(key) {
+      if (totalmoles >= up[key].cost*amountarray[currentammount].multi) {
+         $("#"+up[key].value+"Button").css("opacity", "1")
+       } else {
+         $("#"+up[key].value+"Button").css("opacity", "0.5")
+       }
+    });
+  }
 // Buttons
   $("#StartButton").click(function(){
     if (!gameon) {
-      $("#InstructionsButton").hide();
       instructionpageshow();
     };
   });
@@ -683,19 +702,46 @@ $(document).ready(function(){
   $("#SoundMuteButton").click(function(){
     soundmute = !soundmute;
   });
-
   $("#PauseButton").click(function(){
     pause();
   });
+  $(document).on('click','#ScientificNotationButton',function(){
+    scientificnotation = !scientificnotation;
+    if (scientificnotation) {
+      $('#ScientificNotationButton').css('text-decoration', 'none')
+      $('#ScientificNotationButton').css('color', 'black')
+    } else {
+      $('#ScientificNotationButton').css('text-decoration', 'line-through')
+      $('#ScientificNotationButton').css('color', 'red')
+    }
+    upgradechecker();
+  });
+  $(document).on('click','#MoleLevelIcon',function(){
+    if (gameon) {
+      iconrotate--;
+      if (iconrotate <= 0) {iconrotate = level}
+      moleimg.src = levelarray[iconrotate].mole;
+      $('#MoleLevelIcon').attr('src', moleimg.src)
+      $('#MoleLevelIcon').tooltip({content: "Mega Moletiplier: x"+numbercleanup(megamoletiplier)});
+    }
+  });
+  $(document).on('click','#BulkBuyButton',function(){
+    currentammount++;
+    if (currentammount >= 3) {currentammount = 0}
+    $('#BulkBuyButton').html('x'+amountarray[currentammount].amount)
+    upgradechecker();
+    darkenbuttons();
+  });
 // upgrade buttons
   $(document).on('click','.UpgradeButtons',function(){
-    if (totalmoles >= up[this.value].cost) {
+    if (totalmoles >= up[this.value].cost*amountarray[currentammount].multi) {
       totalmoles -= up[this.value].cost;
-      array = buyupgrade(up[this.value].level,up[this.value].cost)
+      array = buyupgrade(up[this.value].level,up[this.value].cost, amountarray[currentammount].amount)
       up[this.value].level = array[0];
       up[this.value].cost = array[1];
       moleratecal();
       statustext();
+      darkenbuttons();
     }
     $('.ui-tooltip').hide();
   });
@@ -732,8 +778,6 @@ $(document).ready(function(){
     if (totalmoles == threshold) {
       leveling = true;
       if (!soundmute) {levelupsound.play();}
-    } else {
-
     }
   });
   function levelup(){
@@ -754,13 +798,18 @@ $(document).ready(function(){
       } else {
         threshold = Math.pow(1000,level);
       }
+      totalmoles = 0;
       levelbackimg.src = levelarray[level].back;
       moleimg.src = levelarray[level].mole;
       molewaveimg.src = levelarray[level].wave;
       moleclickicons = [];
+      iconrotate = level;
       sprinkly = Math.ceil(18-(2 * level));
       lightmax = threshold/(20.0*level);
       moleratecal();
+      darkenbuttons();
+      $('#MoleLevelIcon').attr('src', moleimg.src)
+      $('#MoleLevelIcon').tooltip({content: "Mega Moletiplier: x"+numbercleanup(megamoletiplier)});
 		}
   }
 // make the numbers pretty
@@ -769,7 +818,7 @@ $(document).ready(function(){
     numbersuffix = ['','M','B','T','Qa','Qi','Sx']
     sn = (n).toString();
     if (n < 1000000) {
-      return sn
+      return (Math.floor(n)).toString();
     } else if (sn.includes('e')) {
       mult = parseInt(sn.slice(-2))
       sn = (parseFloat(sn.slice(0, -4))*Math.pow(10,(mult%3))).toFixed(3).toString()
@@ -781,20 +830,24 @@ $(document).ready(function(){
       sn = (n/Math.pow(10,(mult-left))).toFixed(3).toString()
     }
     if (full) {sn = sn  +" "+ numbersuffixlong[Math.floor((mult-1)/3.0)-1]} else {sn = sn  +" "+ numbersuffix[Math.floor((mult-1)/3.0)-1]}
+    if (scientificnotation) {
+      sn = (n/Math.pow(10,mult-1)).toFixed(3).toString()+" x 10^"+mult
+    }
+    console.log(mult);
     return sn
   };
 // Status text
   function statustext(aninum = 0) {
     if (totalmoles == threshold) {aninum = 0};
     $('#TimeKeeper').html(" "+timemaker(playtime)+" ")
-    $('#Score').html("<img src='"+moleimg.src+"' style='width: 40px;height: 40px'></img>"+numbercleanup(totalmoles+aninum,true)+" <a id='SubMoleLine'>("+numbercleanup(molerate)+" per sec, "+numbercleanup(clickrate)+" per click)</a>")
+    $('#Score').html(numbercleanup(totalmoles+aninum,true))
   };
 // add upgradebuttons
   function buttonmaker(upgrade) {
-    return "<button title='' class='UpgradeButtons' id='"+upgrade.value+"Button' value='"+upgrade.value+"'><div center='right'>("+upgrade.level+")"+upgrade.name+"</div> "+numbercleanup(upgrade.cost)+" <img src='images/Mole_Color.png' style='width: 15px;height: 15px'></img></button><br><br>"
+    return "<button title='' class='UpgradeButtons' id='"+upgrade.value+"Button' value='"+upgrade.value+"'><div center='right'>("+upgrade.level+")"+upgrade.name+"</div> "+numbercleanup(upgrade.cost*amountarray[currentammount].multi)+" <img src='images/Mole_Color.png' style='width: 15px;height: 15px'></img></button><br><br>"
   }
   function upgradechecker(array = []) {
-    array += "<a></a>"
+    array += "<a id='SubMoleLine'>"+numbercleanup(molerate)+" a sec|"+numbercleanup(clickrate)+" a click</a>"
     Object.keys(up).forEach(function(key) {
       array += buttonmaker(up[key])
     });
@@ -859,9 +912,9 @@ $(document).ready(function(){
                   "images/lights/Yellow_Light.png",
     ]
     curlight++;
-    console.log(curlight);
     if (curlight > 6) { curlight = 0}
     lightimg.src = lightarray[curlight]
+    $('#LightChangeButton').attr("src", lightimg.src);
   }
   $(document).on('click','#LightChangeButton',function(){
     moleholeswitch();
@@ -879,9 +932,22 @@ $(document).ready(function(){
     skipturns(60);
   });
   $("#BigNumberButton").click(function(){
+    scientificnotation = true;
     molerate = 602214129000000000000000;
     threshold = 99999999999999999999999999999999999999999999;
     console.log(numbercleanup(602214129000000000000000,true));
+    console.log(numbercleanup(60221412900000000000000));
+    console.log(numbercleanup(6022141290000000000000));
+    console.log(numbercleanup(602214129000000000000,true));
+    console.log(numbercleanup(60221412900000000000,true));
+    numbery = 10
+    sum = 0
+    for (var i = 0; i < 100; i++) {
+      sum += numbery;
+      numbery *= 1.15;
+    }
+    console.log(sum);
+    console.log(sum/10);
   });
   $("#ForceLevelButton").click(function(){
     leveling = true;
