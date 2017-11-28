@@ -302,10 +302,11 @@ $(document).ready(function(){
 // help page
   function helpshow(){
     text = "Well, that makes Moley sad :("
-    text += "<br><br>(<img src='images/Mole_Sad.png' style='width: 100px;height: 100px'></img>"
+    text += "<br><br><img src='images/Mole_Sad.png' style='width: 100px;height: 100px'></img>"
     text += "<br><br>This game was rushed in 72 hours so bugs are likely. Feel free to unlock the debug commands and mess around. Hopefully, you are not just a cheater. To each their own."
     text += "<br><br><button id='CheatButton'>Unlock Tools</button>"
     text += "<button id='NotCheatButton'>Return To game</button>"
+    text += "<br><br>(This option will be removed post-comp)"
     textpage(text)
   }
 // text page function
@@ -432,7 +433,8 @@ $(document).ready(function(){
     statustext()
     $('#ScoreLine').show();
     upgradechecker();
-    $('#MoleLevelIcon').html("<img src='"+moleimg.src+"' title='Mega Moletiplier: x"+numbercleanup(megamoletiplier)+"' style='width: 40px;height: 40px'></img>")
+    $('#MoleLevelIcon').attr('src', moleimg.src)
+    $('#MoleLevelIcon').tooltip({content: "Mega Moletiplier: x"+numbercleanup(megamoletiplier)});
 
 		if(typeof game_loop != "undefined") clearInterval(game_loop);
 		game_loop = setInterval(paint, speed);
@@ -604,21 +606,21 @@ $(document).ready(function(){
     if (gameon) {
       if (pauseon) {
         clearInterval(game_loop);
-        logtext("Pause");
+        // logtext("Pause");
       } else {
         game_loop = setInterval(paint, speed);
-        logtext("Unpause");
+        // logtext("Unpause");
       };
     }
   };
   function musictoggle() {
     musicmute = !musicmute
     audio = document.getElementById('MusicPlayer');
-    if (musicmute) { logtext("Music off")}
+    // if (musicmute) { logtext("Music off")}
     if (!musicmute && !musicon) {
       audio.play();
       musicon = true;
-      logtext("Music on")
+      // logtext("Music on")
     } else {
       audio.pause();
       musicon = false;
@@ -831,7 +833,7 @@ $(document).ready(function(){
     }
     if (full) {sn = sn  +" "+ numbersuffixlong[Math.floor((mult-1)/3.0)-1]} else {sn = sn  +" "+ numbersuffix[Math.floor((mult-1)/3.0)-1]}
     if (scientificnotation) {
-      sn = (n/Math.pow(10,mult-1)).toFixed(3).toString()+" x 10^"+mult
+      sn = (n/Math.pow(10,(mult-1))).toFixed(3).toString()+" x 10^"+(mult-1)
     }
     console.log(mult);
     return sn
